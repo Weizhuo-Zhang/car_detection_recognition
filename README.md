@@ -24,7 +24,7 @@ This project implements an Android application for Car detection, tracking, and 
 [Zisen Zhou](https://github.com/toponeson)
 
 ## Dataset
-###[Stanford Cars Dataset](https://www.kaggle.com/jessicali9530/stanford-cars-dataset)
+### [Stanford Cars Dataset](https://www.kaggle.com/jessicali9530/stanford-cars-dataset)
 #### cars_annos.mat -> annotations
 | relative_im_path     | bbox_x1 | bbox_y1 | bbox_x2 | bbox_y2 | class | test  |
 | -------------------- | ------- | ------- | ------- | ------- | ----- | ----- |
