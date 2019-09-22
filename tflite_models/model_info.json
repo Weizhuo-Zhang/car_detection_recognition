@@ -1,0 +1,4 @@
+{
+    "MobileNetV2" : 224,
+    "NASNetLarge" : 331
+}
