@@ -79,9 +79,11 @@ public abstract class CameraActivity extends AppCompatActivity
   private int yRowStride;
   private Runnable postInferenceCallback;
   private Runnable imageConverter;
+
   private LinearLayout bottomSheetLayout;
   private LinearLayout gestureLayout;
   private BottomSheetBehavior sheetBehavior;
+
   protected TextView recognitionTextView,
       recognition1TextView,
       recognition2TextView,
