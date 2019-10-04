@@ -38,7 +38,7 @@ import org.tensorflow.lite.examples.classification.env.Logger;
 import org.tensorflow.lite.gpu.GpuDelegate;
 
 /** A classifier specialized to label images using TensorFlow Lite. */
-public abstract class Classifier {
+public abstract class CarClassifier {
   private static final Logger LOGGER = new Logger();
 
   /** The model type used for classification. */
@@ -92,16 +92,17 @@ public abstract class Classifier {
    * @param numThreads The number of threads to use for classification.
    * @return A classifier with the desired configuration.
    */
-  public static Classifier create(Activity activity, Model model, Device device, int numThreads)
+  public static CarClassifier create(Activity activity, Model model, Device device, int numThreads)
       throws IOException {
     if (model == Model.QUANTIZED) {
-      return new ClassifierQuantizedMobileNet(activity, device, numThreads);
+      //return new CarClassifierQuantizedMobileNet(activity, device, numThreads);
+      return new CarClassifierFloatMobileNet(activity, device, numThreads);
     } else {
-      return new ClassifierFloatMobileNet(activity, device, numThreads);
+      return new CarClassifierFloatMobileNet(activity, device, numThreads);
     }
   }
 
-  /** An immutable result returned by a Classifier describing what was recognized. */
+  /** An immutable result returned by a CarClassifier describing what was recognized. */
   public static class Recognition {
     /**
      * A unique identifier for what has been recognized. Specific to the class, not the instance of
@@ -171,8 +172,8 @@ public abstract class Classifier {
     }
   }
 
-  /** Initializes a {@code Classifier}. */
-  protected Classifier(Activity activity, Device device, int numThreads) throws IOException {
+  /** Initializes a {@code CarClassifier}. */
+  protected CarClassifier(Activity activity, Device device, int numThreads) throws IOException {
     tfliteModel = loadModelFile(activity);
     switch (device) {
       case NNAPI:
@@ -196,7 +197,7 @@ public abstract class Classifier {
                 * DIM_PIXEL_SIZE
                 * getNumBytesPerChannel());
     imgData.order(ByteOrder.nativeOrder());
-    LOGGER.d("Created a Tensorflow Lite Image Classifier.");
+    LOGGER.d("Created a Tensorflow Lite Image CarClassifier.");
   }
 
   /** Reads label list from Assets. */

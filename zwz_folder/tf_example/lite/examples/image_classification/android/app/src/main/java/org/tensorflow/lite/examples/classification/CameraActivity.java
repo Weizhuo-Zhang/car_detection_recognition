@@ -54,9 +54,9 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import org.tensorflow.lite.examples.classification.env.ImageUtils;
 import org.tensorflow.lite.examples.classification.env.Logger;
-import org.tensorflow.lite.examples.classification.tflite.Classifier.Device;
-import org.tensorflow.lite.examples.classification.tflite.Classifier.Model;
-import org.tensorflow.lite.examples.classification.tflite.Classifier.Recognition;
+import org.tensorflow.lite.examples.classification.tflite.CarClassifier.Device;
+import org.tensorflow.lite.examples.classification.tflite.CarClassifier.Model;
+import org.tensorflow.lite.examples.classification.tflite.CarClassifier.Recognition;
 
 public abstract class CameraActivity extends AppCompatActivity
     implements OnImageAvailableListener,
@@ -101,7 +101,7 @@ public abstract class CameraActivity extends AppCompatActivity
   private Spinner deviceSpinner;
   private TextView threadsTextView;
 
-  private Model model = Model.QUANTIZED;
+  private Model model = Model.FLOAT;
   private Device device = Device.CPU;
   private int numThreads = -1;
 

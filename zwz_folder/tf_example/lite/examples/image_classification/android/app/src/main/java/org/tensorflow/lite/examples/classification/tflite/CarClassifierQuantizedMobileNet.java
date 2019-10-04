@@ -19,7 +19,7 @@ import android.app.Activity;
 import java.io.IOException;
 
 /** This TensorFlow Lite classifier works with the quantized MobileNet model. */
-public class ClassifierQuantizedMobileNet extends Classifier {
+public class CarClassifierQuantizedMobileNet extends CarClassifier {
 
   /**
    * An array to hold inference results, to be feed into Tensorflow Lite as outputs. This isn't part
@@ -28,11 +28,11 @@ public class ClassifierQuantizedMobileNet extends Classifier {
   private byte[][] labelProbArray = null;
 
   /**
-   * Initializes a {@code ClassifierQuantizedMobileNet}.
+   * Initializes a {@code CarClassifierQuantizedMobileNet}.
    *
    * @param activity
    */
-  public ClassifierQuantizedMobileNet(Activity activity, Device device, int numThreads)
+  public CarClassifierQuantizedMobileNet(Activity activity, Device device, int numThreads)
       throws IOException {
     super(activity, device, numThreads);
     labelProbArray = new byte[1][getNumLabels()];
@@ -53,7 +53,7 @@ public class ClassifierQuantizedMobileNet extends Classifier {
     // you can download this file from
     // see build.gradle for where to obtain this file. It should be auto
     // downloaded into assets.
-    return "mobilenet_v1_1.0_224_quant.tflite";
+    return "converted_mobilenetv2_model_quantized.tflite";
   }
 
   @Override

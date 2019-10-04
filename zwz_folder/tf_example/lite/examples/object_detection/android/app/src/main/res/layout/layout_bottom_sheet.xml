@@ -87,11 +87,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Inference Time"
+            android:text="Detection Time"
+            android:textColor="@android:color/black" />
+
+       <TextView
+            android:id="@+id/inference_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="right"
+            android:text="640*480"
+            android:textColor="@android:color/black" />
+
+   </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/inference_recognition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Recognition Time"
             android:textColor="@android:color/black" />
 
         <TextView
-            android:id="@+id/inference_info"
+            android:id="@+id/inference_recognition_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -158,6 +182,49 @@
         android:layout_marginTop="10dp"
         android:background="@android:color/darker_gray" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/model"
+            android:textColor="@android:color/black" />
+        
+        <Spinner
+            android:id="@+id/model_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            android:entries="@array/models"
+            android:prompt="@string/model" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/device"
+            android:textColor="@android:color/black" />
+
+        <Spinner
+            android:id="@+id/device_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            android:entries="@array/devices"
+            android:prompt="@string/device" />
+    </RelativeLayout>
     <!-- TODO(b/112541284): Unhide when new NNAPI delegate is used. -->
     <LinearLayout
         android:layout_width="match_parent"

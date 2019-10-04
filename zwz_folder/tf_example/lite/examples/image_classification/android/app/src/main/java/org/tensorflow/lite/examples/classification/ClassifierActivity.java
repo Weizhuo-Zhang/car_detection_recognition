@@ -31,9 +31,9 @@ import java.util.List;
 import org.tensorflow.lite.examples.classification.env.BorderedText;
 import org.tensorflow.lite.examples.classification.env.ImageUtils;
 import org.tensorflow.lite.examples.classification.env.Logger;
-import org.tensorflow.lite.examples.classification.tflite.Classifier;
-import org.tensorflow.lite.examples.classification.tflite.Classifier.Device;
-import org.tensorflow.lite.examples.classification.tflite.Classifier.Model;
+import org.tensorflow.lite.examples.classification.tflite.CarClassifier;
+import org.tensorflow.lite.examples.classification.tflite.CarClassifier.Device;
+import org.tensorflow.lite.examples.classification.tflite.CarClassifier.Model;
 
 public class ClassifierActivity extends CameraActivity implements OnImageAvailableListener {
   private static final Logger LOGGER = new Logger();
@@ -45,7 +45,7 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
   private Bitmap cropCopyBitmap = null;
   private long lastProcessingTimeMs;
   private Integer sensorOrientation;
-  private Classifier classifier;
+  private CarClassifier carClassifier;
   private Matrix frameToCropTransform;
   private Matrix cropToFrameTransform;
   private BorderedText borderedText;
@@ -69,8 +69,8 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
     borderedText.setTypeface(Typeface.MONOSPACE);
 
     recreateClassifier(getModel(), getDevice(), getNumThreads());
-    if (classifier == null) {
-      LOGGER.e("No classifier on preview!");
+    if (carClassifier == null) {
+      LOGGER.e("No carClassifier on preview!");
       return;
     }
 
@@ -84,14 +84,14 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
     rgbFrameBitmap = Bitmap.createBitmap(previewWidth, previewHeight, Config.ARGB_8888);
     croppedBitmap =
         Bitmap.createBitmap(
-            classifier.getImageSizeX(), classifier.getImageSizeY(), Config.ARGB_8888);
+            carClassifier.getImageSizeX(), carClassifier.getImageSizeY(), Config.ARGB_8888);
 
     frameToCropTransform =
         ImageUtils.getTransformationMatrix(
             previewWidth,
             previewHeight,
-            classifier.getImageSizeX(),
-            classifier.getImageSizeY(),
+            carClassifier.getImageSizeX(),
+            carClassifier.getImageSizeY(),
             sensorOrientation,
             MAINTAIN_ASPECT);
 
@@ -109,9 +109,9 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
         new Runnable() {
           @Override
           public void run() {
-            if (classifier != null) {
+            if (carClassifier != null) {
               final long startTime = SystemClock.uptimeMillis();
-              final List<Classifier.Recognition> results = classifier.recognizeImage(croppedBitmap);
+              final List<CarClassifier.Recognition> results = carClassifier.recognizeImage(croppedBitmap);
               lastProcessingTimeMs = SystemClock.uptimeMillis() - startTime;
               LOGGER.v("Detect: %s", results);
               cropCopyBitmap = Bitmap.createBitmap(croppedBitmap);
@@ -147,13 +147,13 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
   }
 
   private void recreateClassifier(Model model, Device device, int numThreads) {
-    if (classifier != null) {
-      LOGGER.d("Closing classifier.");
-      classifier.close();
-      classifier = null;
+    if (carClassifier != null) {
+      LOGGER.d("Closing carClassifier.");
+      carClassifier.close();
+      carClassifier = null;
     }
     if (device == Device.GPU && model == Model.QUANTIZED) {
-      LOGGER.d("Not creating classifier: GPU doesn't support quantized models.");
+      LOGGER.d("Not creating carClassifier: GPU doesn't support quantized models.");
       runOnUiThread(
           () -> {
             Toast.makeText(this, "GPU does not yet supported quantized models.", Toast.LENGTH_LONG)
@@ -163,10 +163,10 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
     }
     try {
       LOGGER.d(
-          "Creating classifier (model=%s, device=%s, numThreads=%d)", model, device, numThreads);
-      classifier = Classifier.create(this, model, device, numThreads);
+          "Creating carClassifier (model=%s, device=%s, numThreads=%d)", model, device, numThreads);
+      carClassifier = CarClassifier.create(this, model, device, numThreads);
     } catch (IOException e) {
-      LOGGER.e(e, "Failed to create classifier.");
+      LOGGER.e(e, "Failed to create carClassifier.");
     }
   }
 }
