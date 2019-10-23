@@ -13,7 +13,7 @@ tflite_model_path = "tflitemodels"
 image_data_path = "train"
 
 def train(model_name,
-          epochs = epochs,
+          train_epochs = epochs,
           batch_size = BATCH_SIZE,
           rotation_range = 20,
           zoom_range = 0.3,
@@ -21,7 +21,7 @@ def train(model_name,
           brightness_range = [0.5,1.0],
           horizontal_flip = True,
           vertical_flip = False,
-          fine_tune_at = 160,
+          fine_tune_at = 160
           ):
     with open(model_info) as info:
         data = json.load(info)
@@ -50,7 +50,8 @@ def train(model_name,
                                         batch_size = BATCH_SIZE,
                                         subset = "validation")
     
-    model = tf.keras.models.load_model(h5_model_path + "\\" + model_name + ".h5", compile = False)
+    model_path = os.path.join(h5_model_path, model_name, ".h5")
+    model = tf.keras.models.load_model(model_path, compile = False)
     model.summary()
     
     print(len(model.layers[0].layers))
@@ -64,16 +65,18 @@ def train(model_name,
               metrics = ['accuracy'])
     
     csv_logger = tf.keras.callbacks.CSVLogger(model_name + 'log.csv', append=True, separator=';')
-    checkpoint = tf.keras.callbacks.ModelCheckpoint(h5_model_path + "\\checkpoint\\" + model_name + ".h5", monitor = 'val_acc', verbose = 1, save_best_only = True, mode = 'max')
+    checkpoint_path = os.path.join(h5_model_path, "checkpoint", model_name, ".h5")
+    checkpoint = tf.keras.callbacks.ModelCheckpoint(checkpoint_path, monitor = 'val_acc', verbose = 1, save_best_only = True, mode = 'max')
     callbacks_list = [csv_logger, checkpoint]
     
     history_fine = model.fit_generator(train_generator, 
-                         epochs = epochs,
+                         epochs = train_epochs,
                          validation_data = val_generator,
                          callbacks = callbacks_list)
     
     # save models
-    h5_model_file = h5_model_path+"\\" + model_name + ".h5"
+    # h5_model_file = h5_model_path+"\\" + model_name + ".h5"
+    h5_model_file = os.path.join(h5_model_path, model_name, ".h5")
     model.save(h5_model_file)
     print("H5 model saved")
     
@@ -82,11 +85,12 @@ def train(model_name,
     # converter.optimizations = [tf.lite.Optimize.DEFAULT]
     # converter.target_spec.supported_types = [tf.lite.constants.FLOAT16]
     tflite_model = converter.convert()
-    tflite_model_file = tflite_model_path +"\\" + model_name + ".tflite"
+    tflite_model_file = os.path.join(tflite_model_path, model_name, ".tflite")
+    # tflite_model_file = tflite_model_path +"\\" + model_name + ".tflite"
     open(tflite_model_file, "wb").write(tflite_model)
     
 if __name__ == '__main__':
     model_name = sys.argv[1]
     epochs = int(sys.argv[2])
     batch_size = int(sys.argv[3])
-    train(model_name, epochs, batch_size)
+    train(model_name, train_epochs = epochs, batch_size = batch_size)
