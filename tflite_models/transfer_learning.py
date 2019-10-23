@@ -129,4 +129,4 @@ if __name__ == '__main__':
     model_name = sys.argv[1]
     epochs = int(sys.argv[2])
     batch_size = int(sys.argv[3])
-    transfer_learning(model_name, epochs = epochs, batch_size = batch_size)
+    transfer_learning(model_name, transfer_epochs = epochs, batch_size = batch_size)
