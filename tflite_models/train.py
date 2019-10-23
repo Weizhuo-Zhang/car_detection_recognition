@@ -5,6 +5,13 @@ import os
 import json
 import numpy as np
 
+from tensorflow.compat.v1 import ConfigProto
+from tensorflow.compat.v1 import InteractiveSession
+
+config = ConfigProto()
+config.gpu_options.allow_growth = True
+session = InteractiveSession(config=config)
+
 BATCH_SIZE = 4
 epochs = 4
 model_info = "model_info.json"
@@ -41,16 +48,16 @@ def train(model_name,
     train_generator = datagen.flow_from_directory(
                                         image_data_path,
                                         target_size = (IMAGE_SIZE, IMAGE_SIZE),
-                                        batch_size = BATCH_SIZE,
+                                        batch_size = batch_size,
                                         subset = "training")
 
     val_generator = datagen.flow_from_directory(
                                         image_data_path,
                                         target_size = (IMAGE_SIZE, IMAGE_SIZE),
-                                        batch_size = BATCH_SIZE,
+                                        batch_size = batch_size,
                                         subset = "validation")
     
-    model_path = os.path.join(h5_model_path, model_name, ".h5")
+    model_path = os.path.join(h5_model_path, model_name+".h5")
     model = tf.keras.models.load_model(model_path, compile = False)
     model.summary()
     
@@ -65,7 +72,7 @@ def train(model_name,
               metrics = ['accuracy'])
     
     csv_logger = tf.keras.callbacks.CSVLogger(model_name + 'log.csv', append=True, separator=';')
-    checkpoint_path = os.path.join(h5_model_path, "checkpoint", model_name, ".h5")
+    checkpoint_path = os.path.join(h5_model_path, "checkpoint", model_name+".h5")
     checkpoint = tf.keras.callbacks.ModelCheckpoint(checkpoint_path, monitor = 'val_acc', verbose = 1, save_best_only = True, mode = 'max')
     callbacks_list = [csv_logger, checkpoint]
     
@@ -76,7 +83,7 @@ def train(model_name,
     
     # save models
     # h5_model_file = h5_model_path+"\\" + model_name + ".h5"
-    h5_model_file = os.path.join(h5_model_path, model_name, ".h5")
+    h5_model_file = os.path.join(h5_model_path, model_name+".h5")
     model.save(h5_model_file)
     print("H5 model saved")
     

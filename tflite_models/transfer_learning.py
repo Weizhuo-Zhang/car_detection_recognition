@@ -88,7 +88,7 @@ def transfer_learning(model_name, batch_size = BATCH_SIZE, transfer_epochs = tra
     # plot_history(transfer_history)
     
     # save models
-    h5_model_file = h5_model_path+"\\" + model_name + ".h5"
+    h5_model_file = os.path.join(h5_model_path, model_name+".h5")
     model.save(h5_model_file)
     # logging.info("H5 model saved")
     print("H5 model saved")
