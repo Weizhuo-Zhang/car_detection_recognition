@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 BATCH_SIZE = 64
-transfer_epochs = 100
+transfer_epochs = 10
 fine_tune_epochs = 10
 fine_tune_start_layer = 100
 model_info = "model_info.json"
@@ -19,7 +19,7 @@ h5_model_path = "h5models"
 tflite_model_path = "tflitemodels"
 temp_path = "temp"
 
-def transfer_learning(model_name, transfer_epochs = transfer_epochs, fine_tune_epochs = fine_tune_epochs):
+def transfer_learning(model_name, batch_size = BATCH_SIZE, transfer_epochs = transfer_epochs, fine_tune_epochs = fine_tune_epochs):
     # for handler in logging.root.handlers[:]:
     #     logging.root.removeHandler(handler)
     # logname = os.path.join(os.path.dirname(os.path.realpath(__file__)), model_name + "_transfer.log")
@@ -87,37 +87,46 @@ def transfer_learning(model_name, transfer_epochs = transfer_epochs, fine_tune_e
     
     # plot_history(transfer_history)
     
-    # Fine tuning
-    # logging.info("Number of layers in the base model: ", len(base_model.layers))
-    fine_tune_at = fine_tune_start_layer
-    # Freeze all the layers before the `fine_tune_at` layer
-    for layer in base_model.layers[:fine_tune_at]:
-        layer.trainable =  False
-    
-    model.compile(loss ='categorical_crossentropy',
-              optimizer = tf.keras.optimizers.Adam(1e-5),
-              metrics = ['accuracy'])
-    model.summary()
-    # logging.info('Number of trainable variables = {}'.format(len(model.trainable_variables)))
-    
-    history_fine = model.fit_generator(train_generator, 
-                         epochs = fine_tune_epochs,
-                         validation_data = val_generator,
-                         callbacks = [csv_logger])
-    
-    # plot_history(history_fine)
-    
     # save models
     h5_model_file = h5_model_path+"\\" + model_name + ".h5"
     model.save(h5_model_file)
     # logging.info("H5 model saved")
     print("H5 model saved")
     
-    # Convert to TensorFlow Lite model.
-    converter = tf.lite.TFLiteConverter.from_keras_model_file(h5_model_file)
-    tflite_model = converter.convert()
-    tflite_model_file = tflite_model_path +"\\" + model_name + ".tflite"
-    open(tflite_model_file, "wb").write(tflite_model)
+    # # Fine tuning
+    # # logging.info("Number of layers in the base model: ", len(base_model.layers))
+    # fine_tune_at = fine_tune_start_layer
+    # # Freeze all the layers before the `fine_tune_at` layer
+    # for layer in model.layers[0].layers[fine_tune_at:]:
+    #     layer.trainable =  True
+    
+    # model.compile(loss ='categorical_crossentropy',
+    #           optimizer = tf.keras.optimizers.Adam(1e-5),
+    #           metrics = ['accuracy'])
+    # model.summary()
+    # # logging.info('Number of trainable variables = {}'.format(len(model.trainable_variables)))
+    
+    # history_fine = model.fit_generator(train_generator, 
+    #                      epochs = fine_tune_epochs,
+    #                      validation_data = val_generator,
+    #                      callbacks = [csv_logger])
+    
+    # # plot_history(history_fine)
+    
+    # # save models
+    # h5_model_file = h5_model_path+"\\" + model_name + ".h5"
+    # model.save(h5_model_file)
+    # # logging.info("H5 model saved")
+    # print("H5 model saved")
+    
+    # # Convert to TensorFlow Lite model.
+    # converter = tf.lite.TFLiteConverter.from_keras_model_file(h5_model_file)
+    # tflite_model = converter.convert()
+    # tflite_model_file = tflite_model_path +"\\" + model_name + ".tflite"
+    # open(tflite_model_file, "wb").write(tflite_model)
     
 if __name__ == '__main__':
-    transfer_learning("MobileNetV2")
+    model_name = sys.argv[1]
+    epochs = int(sys.argv[2])
+    batch_size = int(sys.argv[3])
+    transfer_learning(model_name, epochs = epochs, batch_size = batch_size)
