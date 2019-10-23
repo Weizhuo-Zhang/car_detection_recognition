@@ -1,4 +1,10 @@
 {
     "MobileNetV2" : 224,
-    "NASNetLarge" : 331
+    "NASNetLarge" : 331,
+    "NASNetMobile" : 224,
+    "InceptionV3" : 299,
+    "InceptionResNetV2" : 299,
+    "DenseNet121" : 224,
+    "DenseNet169" : 224,
+    "DenseNet201" : 224
 }
