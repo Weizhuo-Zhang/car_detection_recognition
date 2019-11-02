@@ -20,10 +20,12 @@ This project implements an Android application for Car detection, tracking, and 
 ### [APK](Carro-release.apk)
 ### Real-Time Module
 [YouTube Link](https://youtu.be/TeBu98UbpeM)
+
 ![real_time_demo](resources/real_time_demo.gif)
 
 ### Server Module
 [YouTube Link](https://youtu.be/TtR7LePMhxs)
+
 ![server_video_demo](resources/server_video_demo.gif)
 
 ### Server Module Operation Demo
