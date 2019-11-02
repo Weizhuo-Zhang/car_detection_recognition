@@ -8,20 +8,34 @@ This project implements an Android application for Car detection, tracking, and 
 
 **Car Detection -> Tracking -> Car Model Recognition**
 
-**Assessment**
-
-| Grading Parts | Percentage |
-|  ----  | ----  |
-| Source Code  | **45%** |
-| Final Report | **45%** |
-| Presentation | **10%** |.
-
 ## Team Members
 [Xiaokang Zhang](https://github.com/zhkyle0903)
 
 [Weizhuo Zhang](https://github.com/Weizhuo-Zhang)
 
 [Zisen Zhou](https://github.com/toponeson)
+
+## Demo
+### [Models](https://drive.google.com/drive/folders/171Yhy6DDHe_8I6AB-qpUeMOxK0zL11yX)
+### [APK](Carro-release.apk)
+### Real-Time Module
+[YouTube Link](https://youtu.be/TeBu98UbpeM)
+![real_time_demo](resources/real_time_demo.gif)
+
+### Server Module
+[YouTube Link](https://youtu.be/TtR7LePMhxs)
+![server_video_demo](resources/server_video_demo.gif)
+
+### Server Module Operation Demo
+![server_operation_demo](resources/server_operation_demo.gif)
+
+## Assessment
+
+| Grading Parts | Percentage |
+|  ----  | ----  |
+| Source Code  | **45%** |
+| Final Report | **45%** |
+| Presentation | **10%** |.
 
 ## Dataset
 ### [Stanford Cars Dataset](https://www.kaggle.com/jessicali9530/stanford-cars-dataset)
