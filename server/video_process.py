@@ -16,13 +16,7 @@ print("tensorflow version:" + tf.__version__)
 base_path = os.path.abspath(os.path.dirname(__file__))
 print("base path:" + str(base_path))
 yolo_img_size = 608,608
-# default_img_size = 224,224
-# test_path = os.path.join(base_path,"input/Car_data/test")
-# ALLOWED_EXTENSIONS = set(['png','jpg','JPG','PNG','bmp','jpeg'])
 class_list_path = os.path.join(base_path,"labels.txt")
-# video_path = "C:\\Users\\Kyle\\Desktop\\StudyS4\\Project\\video_dataset\\"
-# video_name = "test_video1"
-# output_path = "C:\\Users\\Kyle\\Desktop\\StudyS4\\Project\\video_dataset\\"
 accept_confidence = 0.5
 max_video_duration = 15 # second
 
@@ -34,14 +28,6 @@ def vieo_process(video_path, output_path,
     yolo = YOLO()
     print("Creating video capture", flush=True)
     video = cv2.VideoCapture(os.path.join(video_path))
-    # try:
-    #     opts,args = getopt.getopt(sys.argv[1:],"m:",['model='])
-    # except getopt.GetoptError:
-    #     print('test.py -m <model_name>')
-    # for opt, arg in opts:
-    #     if opt in ('-m', '--model'):
-    #         model_name = arg
-    # print("Using model: "+model_name , flush=True)
     if model_name == "inceptionresnetv2":
         img_size = 299,299
     elif model_name == "nasnetlarge":
@@ -50,10 +36,8 @@ def vieo_process(video_path, output_path,
         img_size = 224,224
     elif model_name == "densenet169":
         img_size = 224,224
-    # model_path = os.path.join(base_path,"check_point\\"+model_name+"\\"+model_name+".hdf5")
     model_path = os.path.join(base_path,"check_point", model_name+".h5")
     print("model path: " + str(model_path) ,flush=True)
-    # output_video_path = os.path.join(output_path,video_name + "_yolov3_"+model_name+".mp4")
     model = tf.keras.models.load_model(model_path)
     print("Model loaded",flush=True)
     class_list = []
@@ -61,10 +45,6 @@ def vieo_process(video_path, output_path,
         for label in label_list:
             print(label.strip(),flush=True)
             class_list.append(label.strip())
-            
-    # classes = os.listdir(test_path)
-    # print("Total number of classes: "+ str(len(classes)))
-    
     begin_time = time.time()
     frame_array = []
     try:
