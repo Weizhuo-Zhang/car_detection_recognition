@@ -1,12 +1,14 @@
 import tensorflow as tf
 import keras
+import os
+import sys
 
-h5_model_path = "h5models\\checkpoint"
+h5_model_path =  os.path.join('h5models', 'checkpoint') 
 tflite_model_path = "tflitemodels"
-model_name = "MobileNetV2"
+model_name = sys.argv[1]
 
-h5_model_file = h5_model_path+"\\" + model_name + ".h5"
+h5_model_file = os.path.join(h5_model_path, model_name + ".h5")
 converter = tf.lite.TFLiteConverter.from_keras_model_file(h5_model_file)
 tflite_model = converter.convert()
-tflite_model_file = tflite_model_path +"\\" + model_name + "11.tflite"
+tflite_model_file = os.path.join(tflite_model_path, model_name + ".tflite")
 open(tflite_model_file, "wb").write(tflite_model)

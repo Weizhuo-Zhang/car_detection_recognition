@@ -6,5 +6,6 @@
     "InceptionResNetV2" : 299,
     "DenseNet121" : 224,
     "DenseNet169" : 224,
-    "DenseNet201" : 224
+    "DenseNet201" : 224,
+    "VGG19" : 224
 }

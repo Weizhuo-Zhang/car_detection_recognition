@@ -28,8 +28,9 @@ def train(model_name,
           brightness_range = [0.5,1.0],
           horizontal_flip = True,
           vertical_flip = False,
-          fine_tune_at = 100
+          fine_tune_at = 0
           ):
+    
     print("Training model: " + model_name)
     print("Epochs: " + str(train_epochs))
     print("Batch size: " + str(batch_size))
@@ -71,7 +72,7 @@ def train(model_name,
     model.summary()
     
     print(len(model.layers[0].layers))
-    for layer in model.layers[0].layers:
+    for layer in model.layers[0].layers[0:fine_tune_at]:
         layer.trainable =  False
     for layer in model.layers[0].layers[fine_tune_at:]:
         layer.trainable =  True
