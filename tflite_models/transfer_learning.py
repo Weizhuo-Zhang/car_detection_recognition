@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 BATCH_SIZE = 64
-transfer_epochs = 10
+transfer_epochs = 1
 fine_tune_epochs = 10
 fine_tune_start_layer = 100
 model_info = "model_info.json"
@@ -39,14 +39,14 @@ def transfer_learning(model_name, batch_size = BATCH_SIZE, transfer_epochs = tra
     train_generator = datagen.flow_from_directory(
         image_data_path,
         target_size = (IMAGE_SIZE, IMAGE_SIZE),
-        batch_size = BATCH_SIZE,
+        batch_size = batch_size,
         subset = "training")
     # logging.info("Training data loaded")
     
     val_generator = datagen.flow_from_directory(
         image_data_path,
         target_size = (IMAGE_SIZE, IMAGE_SIZE),
-        batch_size = BATCH_SIZE,
+        batch_size = batch_size,
         subset = "validation")
     # logging.info("Validation data loaded")
     
@@ -88,7 +88,7 @@ def transfer_learning(model_name, batch_size = BATCH_SIZE, transfer_epochs = tra
     # plot_history(transfer_history)
     
     # save models
-    h5_model_file = os.path.join(h5_model_path, model_name+".h5")
+    h5_model_file = h5_model_path+"\\" + model_name + ".h5"
     model.save(h5_model_file)
     # logging.info("H5 model saved")
     print("H5 model saved")
